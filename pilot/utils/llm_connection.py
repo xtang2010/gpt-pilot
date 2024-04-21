@@ -501,6 +501,7 @@ def stream_gpt_completion(data, req_type, project, model=None):
                     telemetry.record_llm_request(token_count, time.time() - request_start_time, is_error=True)
                     raise ValueError(f'Error in LLM response: {json_line["error"]["message"]}')
 
+                """                 
                 if 'choices' not in json_line or len(json_line['choices']) == 0:
                     continue
 
@@ -511,6 +512,13 @@ def stream_gpt_completion(data, req_type, project, model=None):
                 #     return return_result({'function_calls': function_calls}, lines_printed)
 
                 json_line = choice['delta']
+                """
+
+                if 'message' in json_line and len(json_line['message']) > 0:
+                    json_line = json_line['message']
+                elif 'choices' in json_line and len(json_line['choices']) > 0:
+                    choice = json_line['choices'][0]
+                    json_line = choice['delta']
 
             except json.JSONDecodeError as e:
                 logger.error(f'Unable to decode line: {line} {e.msg}')

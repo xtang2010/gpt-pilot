@@ -9,6 +9,7 @@ from utils.exit import trace_code_event
 from .javascript_react import JAVASCRIPT_REACT
 from .node_express_mongoose import NODE_EXPRESS_MONGOOSE
 from .render import Renderer
+from .python import PYTHON3
 
 if TYPE_CHECKING:  # noqa
     from helpers.Project import Project  # noqa
@@ -16,6 +17,7 @@ if TYPE_CHECKING:  # noqa
 PROJECT_TEMPLATES = {
     "node_express_mongoose": NODE_EXPRESS_MONGOOSE,
     "javascript_react": JAVASCRIPT_REACT,
+    "python": PYTHON3,
 }
 
 

@@ -147,6 +147,20 @@ def create_gpt_chat_completion(messages: List[dict], req_type, project,
             if not os.getenv('ANTHROPIC_API_KEY'):
                 os.environ['ANTHROPIC_API_KEY'] = os.getenv('OPENAI_API_KEY')
             response = stream_anthropic(messages, function_call_message, gpt_data, model_name)
+        elif model_provider.lower() == 'ollama':
+            ngpt_data = {
+                'model': gpt_data['model'],
+                'messages': gpt_data['messages'],
+                'stream': gpt_data['stream'],
+                'options': {
+                    'temperature': gpt_data['temperature'],
+                    'top_p': gpt_data['top_p'],
+                    'presence_penalty': gpt_data['presence_penalty'],
+                    'frequency_penalty': gpt_data['frequency_penalty'],
+                    'num_ctx': 32768
+                }
+            }
+            response = stream_gpt_completion(ngpt_data, req_type, project, model_name)
         else:
             response = stream_gpt_completion(gpt_data, req_type, project, model_name)
 

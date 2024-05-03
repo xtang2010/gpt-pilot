@@ -16,12 +16,26 @@
             "name": "GPT-Pilot",
             "type": "debugpy",
             "request": "launch",
-            "program": "../pilot/main.py",
+            "program": "${workspaceFolder}/pilot/main.py",
             "console": "integratedTerminal",
-            "cwd": "../pilot",
+            "cwd": "${workspaceFolder}/pilot",
             "args": [
-                "app_id=5e5a73f2-9f91-4060-9745-6ba117386b41"
+                "--api-endpoint=http://192.168.109.115:11434/api/chat",
+                "--model-name=ollama/wizardlm2",
+                "app_id=8f9fae9b-0274-444f-bd6b-cb12204104ee"
             ]
+        },
+        {
+            "name": "Summarizer",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/workspace/Summarizer/summarizer.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/workspace/Summarizer",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/workspace/Ollama"
+            },
+            "args": "${command:pickArgs}"
         }
     ]
 }

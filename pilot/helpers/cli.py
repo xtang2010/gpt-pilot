@@ -427,7 +427,7 @@ def execute_command_and_check_cli_response(convo, command: dict, task_steps=None
     command_id = command['command_id'] if 'command_id' in command else None
     cli_response, response, exit_code = execute_command(convo.agent.project,
                                                         command['command'],
-                                                        timeout=command['timeout'],
+                                                        timeout=int(command['timeout']),
                                                         command_id=command_id)
 
     response = check_if_command_successful(convo, command['command'], cli_response, response, exit_code,

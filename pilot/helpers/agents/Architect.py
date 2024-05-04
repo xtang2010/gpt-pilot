@@ -12,6 +12,7 @@ from database.database import save_progress, get_progress_steps
 from logger.logger import logger
 from helpers.AgentConvo import AgentConvo
 from prompts.prompts import ask_user
+from const.messages import AFFIRMATIVE_ANSWERS
 from templates import PROJECT_TEMPLATES
 
 ARCHITECTURE_STEP = 'architecture'
@@ -79,6 +80,30 @@ class Architect(Agent):
                 },
                 ARCHITECTURE
             )
+
+            while True:
+                user_response = ask_user(
+                    self.project,
+                    "Can we proceed with this architecture description? If so, just press ENTER. Otherwise, please tell me what's missing or what you'd like to add.",
+                    hint="Does this sound good, and does it capture all the dependencies about your project?",
+                    require_some_input=False
+                )
+                if user_response:
+                    user_response = user_response.strip()
+
+                if user_response.lower() in AFFIRMATIVE_ANSWERS + ['continue']:
+                    break
+
+                llm_response_str = self.convo_architecture.send_message('utils/python_string.prompt', {
+                    "content": user_response,
+                })  
+                if not llm_response_str:
+                    continue
+                try:
+                    llm_response = json.loads(llm_response_str)
+                except:
+                    continue
+                print('continue', type='button')
 
         self.project.architecture = llm_response["architecture"]
         self.project.system_dependencies = llm_response["system_dependencies"]

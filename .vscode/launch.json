@@ -21,8 +21,8 @@
             "cwd": "${workspaceFolder}/pilot",
             "args": [
                 "--api-endpoint=http://192.168.109.115:11434/api/chat",
-                "--model-name=ollama/wizardlm2",
-                "app_id=8f9fae9b-0274-444f-bd6b-cb12204104ee"
+                "--model-name=ollama/llama3",
+                "--get-created-apps-with-steps"
             ]
         },
         {

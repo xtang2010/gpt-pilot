@@ -82,6 +82,7 @@ class Architect(Agent):
             )
 
             while True:
+                print('continue', type='button')
                 user_response = ask_user(
                     self.project,
                     "Can we proceed with this architecture description? If so, just press ENTER. Otherwise, please tell me what's missing or what you'd like to add.",
@@ -102,8 +103,7 @@ class Architect(Agent):
                 try:
                     llm_response = json.loads(llm_response_str)
                 except:
-                    continue
-                print('continue', type='button')
+                    pass
 
         self.project.architecture = llm_response["architecture"]
         self.project.system_dependencies = llm_response["system_dependencies"]

@@ -203,6 +203,29 @@ class Developer(Agent):
             remove_last_x_messages = 2
             last_parse_task_id = int(self.project.checkpoints['last_development_step']['id']) if self.project.checkpoints['last_development_step'] is not None else None
 
+        # Before going on execute those commands, allow user intervin 
+        while True:
+            print('continue', type='button')
+            user_response = ask_user(
+                self.project,
+                "Are these steps ok? If so, just press ENTER. Otherwise, please tell me what's missing or what you'd like to add.",
+                hint="Does this sound good, and the steps can fulltill the task?",
+                require_some_input=False
+            )
+            if user_response:
+                user_response = user_response.strip()
+            else:
+                break
+
+            if user_response.lower() in AFFIRMATIVE_ANSWERS + ['continue']:
+                break
+
+            instructions = convo_dev_task.send_message('utils/python_string.prompt', {
+                "content": user_response,
+            })  
+            if not instructions:
+                continue
+
         steps = response['tasks']
         self.files_at_start_of_task = self.project.get_files_from_db_by_step_id(last_parse_task_id)
         self.modified_files = []
